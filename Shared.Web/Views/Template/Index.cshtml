@@ -1,0 +1,65 @@
+﻿@*@model IEnumerable<Shared.Models.Tables.Template>*@
+@using PagedList.Mvc
+@model PagedList.IPagedList<Shared.Models.Tables.Template>
+
+@{
+    ViewBag.Title = "Template";
+}
+
+<h2>Template</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TemplateCode)*@
+                Template Code
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Description)*@
+                Description
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.StartTime)*@
+                Start Time
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.EndTime)*@
+                End Time
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TemplateCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.TemplateId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.TemplateId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.TemplateId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
+

@@ -1,0 +1,68 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<Shared.Models.Tables.Employee>
+
+@{
+    ViewBag.Title = "Employee";
+}
+
+<h2>Employee List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+    </p>
+}
+
+<table class="table table-hover">
+    <thead >
+        <tr>
+            <th>
+                Employee Number
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                MI
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="table-hover">
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MiddleName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.EmployeeId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
+
+
